@@ -5,12 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
-import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,15 +17,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.example.coffestoreapp.CustomAdapter.ViewPagerAdapter;
 import com.example.coffestoreapp.Fragments.DisplayCategoryFragment;
 import com.example.coffestoreapp.Fragments.DisplayHomeFragment;
-//import com.example.coffestoreapp.Fragments.DisplayStaffFragment;
-//import com.example.coffestoreapp.Fragments.DisplayStatisticFragment;
+import com.example.coffestoreapp.Fragments.DisplayStaffFragment;
+import com.example.coffestoreapp.Fragments.DisplayStatisticFragment;
 import com.example.coffestoreapp.Fragments.DisplayTableFragment;
 import com.example.coffestoreapp.R;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     MenuItem selectedFeature, selectedManager;
@@ -40,13 +35,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     int accessId = 0;
     SharedPreferences sharedPreferences;
 
-    private int[] tabIcons = {
-            R.drawable.ic_baseline_home_24,
-            R.drawable.ic_baseline_home_24,
-            R.drawable.ic_baseline_home_24,
-            R.drawable.ic_baseline_home_24,
-            R.drawable.ic_baseline_home_24,
-    };
+//    private int[] tabIcons = {
+//            R.drawable.ic_baseline_home_24,
+//            R.drawable.ic_baseline_home_24,
+//            R.drawable.ic_baseline_home_24,
+//            R.drawable.ic_baseline_home_24,
+//            R.drawable.ic_baseline_home_24,
+//    };
     public int getAccessId(){
         return accessId;
     }
@@ -65,7 +60,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         setSupportActionBar(toolbar); // tao toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.opentoggle, R.string.closetoggle){
            @Override
@@ -98,6 +92,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         tranDisplayHome.commit();
         navigationView.setCheckedItem(R.id.nav_home);
     }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item){
         int id = item.getItemId();
@@ -115,8 +110,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_statistic:
                 FragmentTransaction tranDisplayStatistic = fragmentManager.beginTransaction();
-                //DisplayStatisticFragment displayStatisticFragment = new DisplayStatisticFragment();
-                //tranDisplayStatistic.replace(R.id.contentView,displayStatisticFragment);
+                DisplayStatisticFragment displayStatisticFragment = new DisplayStatisticFragment();
+                tranDisplayStatistic.replace(R.id.contentView,displayStatisticFragment);
                 tranDisplayStatistic.commit();
                 navigationView.setCheckedItem(item.getItemId());
                 drawerLayout.closeDrawers();
@@ -144,16 +139,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_staff:
-//                if(accessId == 1){
-//                    FragmentTransaction tranDisplayStaff = fragmentManager.beginTransaction();
-//                    //DisplayStaffFragment displayStaffFragment = new DisplayStaffFragment();
-//                    tranDisplayStaff.replace(R.id.contentView,displayStaffFragment);
-//                    tranDisplayStaff.commit();
-//                    navigationView.setCheckedItem(item.getItemId());
-//                    drawerLayout.closeDrawers();
-//                }else {
-//                    Toast.makeText(getApplicationContext(),"Bạn không có quyền truy cập",Toast.LENGTH_SHORT).show();
-//                }
+                System.out.println("111");
+                System.out.println(accessId);
+                if(accessId == 1){
+                    FragmentTransaction tranDisplayStaff = fragmentManager.beginTransaction();
+                    DisplayStaffFragment displayStaffFragment = new DisplayStaffFragment();
+                    tranDisplayStaff.replace(R.id.contentView,displayStaffFragment);
+                    tranDisplayStaff.commit();
+                    navigationView.setCheckedItem(item.getItemId());
+                    drawerLayout.closeDrawers();
+                } else {
+                    Toast.makeText(getApplicationContext(),"Bạn không có quyền truy cập",Toast.LENGTH_SHORT).show();
+                }
 
                 break;
 

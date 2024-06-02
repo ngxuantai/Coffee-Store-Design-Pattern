@@ -222,7 +222,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:text="Xem tất cả >"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
 
             </RelativeLayout>
 
@@ -264,16 +264,17 @@
                     android:fontFamily="@font/muli_black"
                     android:text="Đơn đặt trong ngày"
                     android:textAllCaps="true"
-                    android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/txt_displayhome_ViewAllStatistic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Xem tất cả >"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:text="Xem tất cả >"
                     android:textColor="@color/black" />
 
             </RelativeLayout>

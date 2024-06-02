@@ -77,12 +77,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-//    public void callRegisterFromLogin(View view)
-//    {
-//        Intent intent = new Intent(getApplicationContext(),RegisterActivity.class);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//    }
+    public void callRegisterFromLogin(View view)
+    {
+        Intent intent = new Intent(getApplicationContext(),RegisterActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
 
     //region Validate field
     private boolean validateUserName(){
