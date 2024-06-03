@@ -24,6 +24,8 @@ import com.example.coffestoreapp.DTO.CategoryDTO;
 import com.example.coffestoreapp.R;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -128,6 +130,7 @@ public class AddCategoryActivity extends AppCompatActivity implements View.OnCli
                     function = "editCategory";
                 }else {
                     check = categoryDAO.addCategory(categoryDTO);
+                    System.out.println("check: "+categoryDTO.getCategoryID());
                     function = "addCategory";
                 }
 

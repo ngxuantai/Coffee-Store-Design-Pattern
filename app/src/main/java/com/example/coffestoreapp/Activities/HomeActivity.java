@@ -81,8 +81,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         TXT_menu_userName.setText("Xin chào " + userName + " !!");
 
         //lấy file share prefer
-        sharedPreferences = getSharedPreferences("luuquyen", Context.MODE_PRIVATE);
-        accessId = sharedPreferences.getInt("maquyen", 0);
+        sharedPreferences = getSharedPreferences("roleSave", Context.MODE_PRIVATE);
+        accessId = sharedPreferences.getInt("roleId", 0);
 
         //hiện thị fragment home mặc định
         fragmentManager = getSupportFragmentManager();
@@ -139,8 +139,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_staff:
-                System.out.println("111");
-                System.out.println(accessId);
                 if(accessId == 1){
                     FragmentTransaction tranDisplayStaff = fragmentManager.beginTransaction();
                     DisplayStaffFragment displayStaffFragment = new DisplayStaffFragment();
