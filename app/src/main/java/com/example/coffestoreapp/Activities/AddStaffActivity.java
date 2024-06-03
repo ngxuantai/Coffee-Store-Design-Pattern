@@ -144,15 +144,16 @@ public class AddStaffActivity extends AppCompatActivity implements View.OnClickL
                         +"/"+DT_addstaff_dateOfBirth.getYear();
 
                 //truyền dữ liệu vào obj employeeDTO
-                EmployeeDTO employeeDTO = new EmployeeDTO();
-                employeeDTO.setFullName(fullName);
-                employeeDTO.setUserName(userName);
-                employeeDTO.setEmail(email);
-                employeeDTO.setPhoneNumber(phoneNumber);
-                employeeDTO.setPassword(password);
-                employeeDTO.setGender(gender);
-                employeeDTO.setBirthday(dateOfBirth);
-                employeeDTO.setRoleId(role);
+                EmployeeDTO employeeDTO = new EmployeeDTO.EmployeeBuilder()
+                        .setFullName(fullName)
+                        .setUserName(userName)
+                        .setEmail(email)
+                        .setPhoneNumber(phoneNumber)
+                        .setPassword(password)
+                        .setGender(gender)
+                        .setBirthday(dateOfBirth)
+                        .setRoleId(role)
+                        .build();
 
                 if(staffID != 0){
                     check = employeeDAO.editEmployee(employeeDTO,staffID);

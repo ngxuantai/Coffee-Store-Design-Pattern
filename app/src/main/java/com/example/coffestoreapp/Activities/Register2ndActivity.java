@@ -22,7 +22,7 @@ public class Register2ndActivity extends AppCompatActivity {
     RadioGroup RG_signup_gender;
     DatePicker DT_signup_birthday;
     Button BTN_signup_next;
-    String fullName,username,eMail,phoneNumber,password,gender;
+    String fullName, username, eMail, phoneNumber, password, gender;
     EmployeeDAO employeeDAO;
     RoleDAO roleDAO;
 
@@ -31,12 +31,12 @@ public class Register2ndActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register2nd_layout);
 
-        RG_signup_gender = (RadioGroup)findViewById(R.id.rg_signup_gender);
-        DT_signup_birthday = (DatePicker)findViewById(R.id.dt_signup_birthday);
-        BTN_signup_next = (Button)findViewById(R.id.btn_signup_next);
+        RG_signup_gender = (RadioGroup) findViewById(R.id.rg_signup_gender);
+        DT_signup_birthday = (DatePicker) findViewById(R.id.dt_signup_birthday);
+        BTN_signup_next = (Button) findViewById(R.id.btn_signup_next);
 
         Bundle bundle = getIntent().getBundleExtra(com.example.coffestoreapp.Activities.RegisterActivity.BUNDLE);
-        if(bundle != null) {
+        if (bundle != null) {
             fullName = bundle.getString("fullName");
             username = bundle.getString("username");
             eMail = bundle.getString("email");
@@ -49,52 +49,60 @@ public class Register2ndActivity extends AppCompatActivity {
         BTN_signup_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!validateAge() | !validateGender()){
+                if (!validateAge() | !validateGender()) {
                     return;
                 }
 
-                switch (RG_signup_gender.getCheckedRadioButtonId()){
+                switch (RG_signup_gender.getCheckedRadioButtonId()) {
                     case R.id.rd_signup_male:
-                        gender = "Nam"; break;
+                        gender = "Nam";
+                        break;
                     case R.id.rd_signup_female:
-                        gender = "Nữ"; break;
+                        gender = "Nữ";
+                        break;
                     case R.id.rd_signup_other:
-                        gender = "Khác"; break;
+                        gender = "Khác";
+                        break;
                 }
                 String birthday = DT_signup_birthday.getDayOfMonth() + "/" + (DT_signup_birthday.getMonth() + 1)
-                        +"/"+DT_signup_birthday.getYear();
+                        + "/" + DT_signup_birthday.getYear();
 
-                EmployeeDTO employeeDTO = new EmployeeDTO();
-                employeeDTO.setFullName(fullName);
-                employeeDTO.setUserName(username);
-                employeeDTO.setEmail(eMail);
-                employeeDTO.setPhoneNumber(phoneNumber);
-                employeeDTO.setPassword(password);
-                employeeDTO.setGender(gender);
-                employeeDTO.setBirthday(birthday);
+                EmployeeDTO.EmployeeBuilder builder = new EmployeeDTO.EmployeeBuilder()
+                        .setFullName(fullName)
+                        .setUserName(username)
+                        .setEmail(eMail)
+                        .setPhoneNumber(phoneNumber)
+                        .setPassword(password)
+                        .setGender(gender)
+                        .setBirthday(birthday);
 
-                if(!employeeDAO.checkExistEmployee()){
+                EmployeeDTO employeeDTO = builder.build();
+
+                if (!employeeDAO.checkExistEmployee()) {
                     roleDAO.addRole("Quản lý");
                     roleDAO.addRole("Nhân viên");
-                    employeeDTO.setRoleId(1);
-                }else {
-                    employeeDTO.setRoleId(2);
+                    employeeDTO = builder.setRoleId(1).build();
+                } else {
+                    employeeDTO = builder.setRoleId(2).build();
                 }
 
                 long ktra = employeeDAO.addEmployee(employeeDTO);
-                if(ktra != 0){
-                    Toast.makeText(Register2ndActivity.this,getResources().getString(R.string.add_success),Toast.LENGTH_SHORT).show();
+                if (ktra != 0) {
+                    Toast.makeText(Register2ndActivity.this, getResources().getString(R.string.add_success),
+                            Toast.LENGTH_SHORT).show();
                     callLoginFromRegister();
-                }else{
-                    Toast.makeText(Register2ndActivity.this,getResources().getString(R.string.add_fail),Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Register2ndActivity.this, getResources().getString(R.string.add_fail),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
     }
 
-    public void backFromRegister2nd(View view){
-        Intent intent = new Intent(getApplicationContext(), com.example.coffestoreapp.Activities.RegisterActivity.class);
+    public void backFromRegister2nd(View view) {
+        Intent intent = new Intent(getApplicationContext(),
+                com.example.coffestoreapp.Activities.RegisterActivity.class);
         startActivity(intent);
         finish();
     }
@@ -102,35 +110,35 @@ public class Register2ndActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    public void callLoginFromRegister(){
+    public void callLoginFromRegister() {
         Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
-    private boolean validateGender(){
-        if(RG_signup_gender.getCheckedRadioButtonId() == -1){
-            Toast.makeText(this,"Hãy chọn giới tính",Toast.LENGTH_SHORT).show();
+    private boolean validateGender() {
+        if (RG_signup_gender.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this, "Hãy chọn giới tính", Toast.LENGTH_SHORT).show();
             return false;
-        }else {
+        } else {
             return true;
         }
     }
 
-    private boolean validateAge(){
+    private boolean validateAge() {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int userAge = DT_signup_birthday.getYear();
         int isAgeValid = currentYear - userAge;
 
-        if(isAgeValid < 16){
-            Toast.makeText(this,"Bạn không đủ tuổi đăng ký!",Toast.LENGTH_SHORT).show();
+        if (isAgeValid < 16) {
+            Toast.makeText(this, "Bạn không đủ tuổi đăng ký!", Toast.LENGTH_SHORT).show();
             return false;
-        }else {
+        } else {
             return true;
         }
     }
-    //endregion
+    // endregion
 }

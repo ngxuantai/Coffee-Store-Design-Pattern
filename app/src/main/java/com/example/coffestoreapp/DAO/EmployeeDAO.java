@@ -14,12 +14,13 @@ import java.util.List;
 public class EmployeeDAO {
 
     SQLiteDatabase database;
-    public EmployeeDAO(Context context){
+
+    public EmployeeDAO(Context context) {
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }
 
-    public long addEmployee(EmployeeDTO employeeDTO){
+    public long addEmployee(EmployeeDTO employeeDTO) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(CreateDatabase.EMPLOYEE_FULLNAME, employeeDTO.getFullName());
         contentValues.put(CreateDatabase.EMPLOYEE_USERNAME, employeeDTO.getUserName());
@@ -30,11 +31,11 @@ public class EmployeeDAO {
         contentValues.put(CreateDatabase.EMPLOYEE_BIRTHDAY, employeeDTO.getBirthday());
         contentValues.put(CreateDatabase.EMPLOYEE_ROLE_ID, employeeDTO.getRoleId());
 
-        long check = database.insert(CreateDatabase.TABLE_EMPLOYEE,null,contentValues);
+        long check = database.insert(CreateDatabase.TABLE_EMPLOYEE, null, contentValues);
         return check;
     }
 
-    public long editEmployee(EmployeeDTO employeeDTO, int employeeId){
+    public long editEmployee(EmployeeDTO employeeDTO, int employeeId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(CreateDatabase.EMPLOYEE_FULLNAME, employeeDTO.getFullName());
         contentValues.put(CreateDatabase.EMPLOYEE_USERNAME, employeeDTO.getUserName());
@@ -45,101 +46,114 @@ public class EmployeeDAO {
         contentValues.put(CreateDatabase.EMPLOYEE_BIRTHDAY, employeeDTO.getBirthday());
         contentValues.put(CreateDatabase.EMPLOYEE_ROLE_ID, employeeDTO.getRoleId());
 
-        long check = database.update(CreateDatabase.TABLE_EMPLOYEE,contentValues,
-                CreateDatabase.EMPLOYEE_ID+" = "+employeeId,null);
+        long check = database.update(CreateDatabase.TABLE_EMPLOYEE, contentValues,
+                CreateDatabase.EMPLOYEE_ID + " = " + employeeId, null);
         return check;
     }
 
-    public int checkAuth(String username, String password){
-        String query = "SELECT * FROM " +CreateDatabase.TABLE_EMPLOYEE+ " WHERE "
-                +CreateDatabase.EMPLOYEE_USERNAME +" = '"+ username+"' AND "+CreateDatabase.EMPLOYEE_PASSWORD +" = '" +password +"'";
+    public int checkAuth(String username, String password) {
+        String query = "SELECT * FROM " + CreateDatabase.TABLE_EMPLOYEE + " WHERE "
+                + CreateDatabase.EMPLOYEE_USERNAME + " = ? AND " + CreateDatabase.EMPLOYEE_PASSWORD + " = ?";
         int employeeId = 0;
-        Cursor cursor = database.rawQuery(query,null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()){
-            employeeId = cursor.getInt(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_ID)) ;
-            cursor.moveToNext();
+        Cursor cursor = database.rawQuery(query, new String[] { username, password });
+
+        try {
+            if (cursor.moveToFirst()) {
+                employeeId = cursor.getInt(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_ID));
+            }
+        } finally {
+            cursor.close();
         }
+
         return employeeId;
     }
 
-    public boolean checkExistEmployee(){
-        String query = "SELECT * FROM "+CreateDatabase.TABLE_EMPLOYEE;
-        Cursor cursor = database.rawQuery(query,null);
-        if(cursor.getCount() != 0){
-            return true;
-        }else {
-            return false;
+    public boolean checkExistEmployee() {
+        String query = "SELECT * FROM " + CreateDatabase.TABLE_EMPLOYEE;
+        Cursor cursor = database.rawQuery(query, null);
+
+        try {
+            return cursor.getCount() != 0;
+        } finally {
+            cursor.close();
         }
     }
 
-    public List<EmployeeDTO> getListEmployee(){
-        List<EmployeeDTO> employeeDTOS = new ArrayList<EmployeeDTO>();
-        String query = "SELECT * FROM "+CreateDatabase.TABLE_EMPLOYEE;
+    public List<EmployeeDTO> getListEmployee() {
+        List<EmployeeDTO> employeeDTOS = new ArrayList<>();
+        String query = "SELECT * FROM " + CreateDatabase.TABLE_EMPLOYEE;
 
-        Cursor cursor = database.rawQuery(query,null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()){
-            EmployeeDTO employeeDTO = new EmployeeDTO();
-            employeeDTO.setFullName(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_FULLNAME)));
-            employeeDTO.setEmail(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_EMAIL)));
-            employeeDTO.setGender(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_GENDER)));
-            employeeDTO.setBirthday(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_BIRTHDAY)));
-            employeeDTO.setPhoneNumber(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_PHONE)));
-            employeeDTO.setUserName(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_USERNAME)));
-            employeeDTO.setPassword(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_PASSWORD)));
-            employeeDTO.setEmployId(cursor.getInt(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_ID)));
-            employeeDTO.setRoleId(cursor.getInt(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_ROLE_ID)));
+        Cursor cursor = database.rawQuery(query, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    EmployeeDTO employeeDTO = new EmployeeDTO.EmployeeBuilder()
+                            .setFullName(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_FULLNAME)))
+                            .setEmail(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_EMAIL)))
+                            .setGender(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_GENDER)))
+                            .setBirthday(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_BIRTHDAY)))
+                            .setPhoneNumber(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_PHONE)))
+                            .setUserName(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_USERNAME)))
+                            .setPassword(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_PASSWORD)))
+                            .setEmployId(cursor.getInt(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_ID)))
+                            .setRoleId(cursor.getInt(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_ROLE_ID)))
+                            .build();
 
-            employeeDTOS.add(employeeDTO);
-            cursor.moveToNext();
+                    employeeDTOS.add(employeeDTO);
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            cursor.close();
         }
         return employeeDTOS;
     }
 
-    public boolean deleteEmployee(int employeeId){
-        long check = database.delete(CreateDatabase.TABLE_EMPLOYEE,CreateDatabase.EMPLOYEE_ID+ " = " +employeeId
-                ,null);
-        if(check !=0 ){
-            return true;
-        }else {
-            return false;
-        }
+    public boolean deleteEmployee(int employeeId) {
+        long check = database.delete(CreateDatabase.TABLE_EMPLOYEE, CreateDatabase.EMPLOYEE_ID + " = " + employeeId,
+                null);
+        return check != 0;
     }
 
-    public EmployeeDTO getEmployeeById(int employeeId){
-        EmployeeDTO employeeDTO = new EmployeeDTO();
-        String query = "SELECT * FROM "+CreateDatabase.TABLE_EMPLOYEE+" WHERE "+CreateDatabase.EMPLOYEE_ID+" = "+employeeId;
-        Cursor cursor = database.rawQuery(query,null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()){
-            employeeDTO.setFullName(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_FULLNAME)));
-            employeeDTO.setEmail(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_EMAIL)));
-            employeeDTO.setGender(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_GENDER)));
-            employeeDTO.setBirthday(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_BIRTHDAY)));
-            employeeDTO.setPhoneNumber(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_PHONE)));
-            employeeDTO.setUserName(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_USERNAME)));
-            employeeDTO.setPassword(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_PASSWORD)));
-            employeeDTO.setEmployId(cursor.getInt(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_ID)));
-            employeeDTO.setRoleId(cursor.getInt(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_ROLE_ID)));
+    public EmployeeDTO getEmployeeById(int employeeId) {
+        String query = "SELECT * FROM " + CreateDatabase.TABLE_EMPLOYEE + " WHERE " + CreateDatabase.EMPLOYEE_ID + " = "
+                + employeeId;
+        Cursor cursor = database.rawQuery(query, null);
 
-            cursor.moveToNext();
+        try {
+            if (cursor.moveToFirst()) {
+                return new EmployeeDTO.EmployeeBuilder()
+                        .setFullName(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_FULLNAME)))
+                        .setEmail(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_EMAIL)))
+                        .setGender(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_GENDER)))
+                        .setBirthday(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_BIRTHDAY)))
+                        .setPhoneNumber(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_PHONE)))
+                        .setUserName(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_USERNAME)))
+                        .setPassword(cursor.getString(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_PASSWORD)))
+                        .setEmployId(cursor.getInt(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_ID)))
+                        .setRoleId(cursor.getInt(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_ROLE_ID)))
+                        .build();
+            }
+        } finally {
+            cursor.close();
         }
-        return employeeDTO;
+
+        return null;
     }
 
-    public int getRoleEmployee(int employeeId){
+    public int getRoleEmployee(int employeeId) {
         int roleId = 0;
-        String query = "SELECT * FROM "+CreateDatabase.TABLE_EMPLOYEE+" WHERE "+CreateDatabase.EMPLOYEE_ID+" = "+employeeId;
-        Cursor cursor = database.rawQuery(query,null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()){
-            roleId = cursor.getInt(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_ROLE_ID));
+        String query = "SELECT * FROM " + CreateDatabase.TABLE_EMPLOYEE + " WHERE " + CreateDatabase.EMPLOYEE_ID + " = "
+                + employeeId;
+        Cursor cursor = database.rawQuery(query, null);
 
-            cursor.moveToNext();
+        try {
+            if (cursor.moveToFirst()) {
+                roleId = cursor.getInt(cursor.getColumnIndex(CreateDatabase.EMPLOYEE_ROLE_ID));
+            }
+        } finally {
+            cursor.close();
         }
+
         return roleId;
     }
-
-
 }

@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.coffestoreapp.DAO.DrinkDAO;
 import com.example.coffestoreapp.DTO.DrinkDTO;
+import com.example.coffestoreapp.Database.CreateDatabase;
 import com.example.coffestoreapp.R;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -160,12 +161,13 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
                         break;
                 }
 
-                DrinkDTO drinkDTO = new DrinkDTO();
-                drinkDTO.setCategoryID(categoryId);
-                drinkDTO.setDrinkName(drinkName);
-                drinkDTO.setPrice(price);
-                drinkDTO.setStatus(status);
-                drinkDTO.setImage(imageViewtoByte(IMG_addmenu_addImage));
+                DrinkDTO drinkDTO = new DrinkDTO.DrinkBuilder()
+                        .setCategoryID(categoryId)
+                        .setDrinkName(drinkName)
+                        .setPrice(price)
+                        .setStatus(status)
+                        .setImage(imageViewtoByte(IMG_addmenu_addImage))
+                        .build();
                 if (drinkId != 0) {
                     ktra = drinkDAO.editDrink(drinkDTO, drinkId);
                     chucnang = "suamon";
