@@ -45,7 +45,7 @@ public class DisplayTableFragment extends Fragment {
                     if(result.getResultCode() == Activity.RESULT_OK){
                         Intent intent = result.getData();
                         //Todo: rename ketquathem to check if needed
-                        boolean check = intent.getBooleanExtra("ketquathem",false);
+                        boolean check = intent.getBooleanExtra("addResult",false);
                         if(check){
                             ShowTableList();
                             Toast.makeText(getActivity(),"Thêm thành công",Toast.LENGTH_SHORT).show();
@@ -62,7 +62,7 @@ public class DisplayTableFragment extends Fragment {
                 public void onActivityResult(ActivityResult result) {
                     if(result.getResultCode() == Activity.RESULT_OK){
                         Intent intent = result.getData();
-                        boolean check = intent.getBooleanExtra("ketquasua",false);
+                        boolean check = intent.getBooleanExtra("editResult",false);
                         if(check){
                             ShowTableList();
                             Toast.makeText(getActivity(),getResources().getString(R.string.edit_sucessful),Toast.LENGTH_SHORT).show();
@@ -106,7 +106,7 @@ public class DisplayTableFragment extends Fragment {
         switch(id){
             case R.id.itEdit:
                 Intent intent = new Intent(getActivity(), EditTableActivity.class);
-                intent.putExtra("tableid",tableId);
+                intent.putExtra("tableId",tableId);
                 resultLauncherEdit.launch(intent);
                 break;
 

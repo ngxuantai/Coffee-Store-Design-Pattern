@@ -2,17 +2,18 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_margin="10dp"
     android:padding="16dp"
-    app:cardCornerRadius="16dp"
+    app:cardCornerRadius="20dp"
     app:cardElevation="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:weightSum="5">
+        android:weightSum="5"
+        >
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_custompayment_productImage"

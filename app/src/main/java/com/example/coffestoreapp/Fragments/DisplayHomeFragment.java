@@ -86,7 +86,6 @@ public class DisplayHomeFragment extends Fragment implements View.OnClickListene
     }
 
     private void ShowOrderInDay() {
-        System.out.println("111");
         rcv_displayhome_OrderInDay.setHasFixedSize(true);
         rcv_displayhome_OrderInDay
                 .setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -109,7 +108,6 @@ public class DisplayHomeFragment extends Fragment implements View.OnClickListene
         switch (id) {
             case R.id.layout_displayhome_Statistic:
             case R.id.txt_displayhome_ViewAllStatistic:
-                System.out.println("12 home");
                 FragmentTransaction tranDisplayStatistic = getActivity().getSupportFragmentManager().beginTransaction();
                 tranDisplayStatistic.replace(R.id.contentView, new DisplayStatisticFragment());
                 tranDisplayStatistic.addToBackStack(null);

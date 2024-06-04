@@ -45,14 +45,14 @@ public class LoginActivity extends AppCompatActivity {
                 int ktra = employeeDAO.checkAuth(userName, password);
                 int maquyen = employeeDAO.getRoleEmployee(ktra);
                 if(ktra != 0){
-                    SharedPreferences sharedPreferences = getSharedPreferences("luuquyen", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreferences = getSharedPreferences("roleSave", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor =sharedPreferences.edit();
-                    editor.putInt("maquyen",maquyen);
+                    editor.putInt("roleId",maquyen);
                     editor.commit();
 
                     Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
                     intent.putExtra("userName",TXTL_login_userName.getEditText().getText().toString());
-                    intent.putExtra("manv",ktra);
+                    intent.putExtra("employeeId",ktra);
                     startActivity(intent);
                 }else {
                     Toast.makeText(getApplicationContext(),"Đăng nhập thất bại!",Toast.LENGTH_SHORT).show();

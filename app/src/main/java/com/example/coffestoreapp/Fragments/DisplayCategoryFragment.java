@@ -3,6 +3,7 @@ package com.example.coffestoreapp.Fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -93,16 +94,16 @@ public class DisplayCategoryFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int categoryID = categoryDTOList.get(position).getCategoryID();
                 String categoryName = categoryDTOList.get(position).getCategoryName();
-                //DisplayMenuFragment displayMenuFragment = new DisplayMenuFragment();
+                DisplayMenuFragment displayMenuFragment = new DisplayMenuFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("categoryID",categoryID);
+                bundle.putInt("categoryId",categoryID);
                 bundle.putString("categoryName",categoryName);
                 bundle.putInt("tableId",tableId);
-                //displayMenuFragment.setArguments(bundle);
+                displayMenuFragment.setArguments(bundle);
 
-//                FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                transaction.replace(R.id.contentView,displayMenuFragment).addToBackStack("hienthiloai");
-//                transaction.commit();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.contentView,displayMenuFragment).addToBackStack("showCategory");
+                transaction.commit();
             }
         });
 

@@ -75,7 +75,7 @@ public class CreateDatabase extends SQLiteOpenHelper {
                 String tblRole = "CREATE TABLE " + TABLE_ROLE + " ( " + ROLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                                 + ROLE_NAME + " TEXT)";
 
-                String tblTable = "CREATE TABLE " + TABLE_TABLES + " ( " + TABLE_ID
+                String tblTables = "CREATE TABLE " + TABLE_TABLES + " ( " + TABLE_ID
                                 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                                 + TABLE_NAME + " TEXT, " + TABLE_STATUS + " TEXT )";
 
@@ -100,7 +100,7 @@ public class CreateDatabase extends SQLiteOpenHelper {
 
                 db.execSQL(tblEmployee);
                 db.execSQL(tblRole);
-                db.execSQL(tblTable);
+                db.execSQL(tblTables);
                 db.execSQL(tblDrink);
                 db.execSQL(tblCategory);
                 db.execSQL(tblOrder);
