@@ -13,7 +13,8 @@ import java.util.List;
 public class PaymentDAO {
     SQLiteDatabase database;
     private static PaymentDAO instance;
-    public PaymentDAO(Context context){
+    
+    private PaymentDAO(Context context){
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }

@@ -10,7 +10,8 @@ import com.example.coffestoreapp.Database.CreateDatabase;
 public class RoleDAO {
     SQLiteDatabase database;
     private static RoleDAO instance;
-    public RoleDAO(Context context){
+    
+    private RoleDAO(Context context){
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }

@@ -15,7 +15,7 @@ public class DrinkDAO {
     SQLiteDatabase database;
     private static DrinkDAO instance;
 
-    public DrinkDAO(Context context) {
+    private DrinkDAO(Context context) {
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }

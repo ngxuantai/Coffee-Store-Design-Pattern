@@ -14,7 +14,8 @@ import java.util.List;
 public class CategoryDAO {
     SQLiteDatabase database;
     private static CategoryDAO instance;
-    public CategoryDAO(Context context){
+    
+    private CategoryDAO(Context context){
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }

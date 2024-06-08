@@ -16,7 +16,7 @@ public class EmployeeDAO {
     SQLiteDatabase database;
     private static EmployeeDAO instance;
 
-    public EmployeeDAO(Context context) {
+    private EmployeeDAO(Context context) {
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }

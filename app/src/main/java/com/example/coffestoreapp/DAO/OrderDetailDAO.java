@@ -12,7 +12,7 @@ public class OrderDetailDAO {
     SQLiteDatabase database;
     private static OrderDetailDAO instance;
 
-    public OrderDetailDAO(Context context) {
+    private OrderDetailDAO(Context context) {
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }

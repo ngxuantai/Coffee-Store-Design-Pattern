@@ -14,7 +14,8 @@ import java.util.List;
 public class OrderDAO {
     SQLiteDatabase database;
     private static OrderDAO instance;
-    public OrderDAO(Context context){
+    
+    private OrderDAO(Context context){
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }

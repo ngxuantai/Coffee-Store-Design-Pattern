@@ -14,7 +14,8 @@ import java.util.List;
 public class TableDAO {
     SQLiteDatabase database;
     private static TableDAO instance;
-    public TableDAO(Context context) {
+
+    private TableDAO(Context context) {
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }
