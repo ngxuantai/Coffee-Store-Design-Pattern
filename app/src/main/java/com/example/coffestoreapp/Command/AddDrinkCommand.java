@@ -13,8 +13,8 @@ public class AddDrinkCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        drinkDAO.addDrink(drinkDTO);
+    public boolean execute() {
+        return drinkDAO.addDrink(drinkDTO);
     }
 
     @Override

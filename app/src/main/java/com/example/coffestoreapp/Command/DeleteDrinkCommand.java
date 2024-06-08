@@ -6,15 +6,20 @@ import com.example.coffestoreapp.DTO.DrinkDTO;
 public class DeleteDrinkCommand implements Command {
     private DrinkDAO drinkDAO;
     private DrinkDTO drinkDTO;
+    private int drinkId;
 
-    public DeleteDrinkCommand(DrinkDAO drinkDAO, DrinkDTO drinkDTO) {
+    public DeleteDrinkCommand(int drinkId) {
+        this.drinkId = drinkId;
+    }
+
+    public void setDrinkDAO(DrinkDAO drinkDAO) {
         this.drinkDAO = drinkDAO;
-        this.drinkDTO = drinkDTO;
+        this.drinkDTO = drinkDAO.getDrinkById(drinkId);
     }
 
     @Override
-    public void execute() {
-        drinkDAO.deleteDrink(drinkDTO.getDrinkID());
+    public boolean execute() {
+        return drinkDAO.deleteDrink(drinkId);
     }
 
     @Override
@@ -22,3 +27,4 @@ public class DeleteDrinkCommand implements Command {
         drinkDAO.addDrink(drinkDTO);
     }
 }
+

@@ -1,6 +1,6 @@
 package com.example.coffestoreapp.Command;
 
 public interface Command {
-    void execute();
+    boolean execute();
     void undo();
 }

@@ -1,17 +1,27 @@
 package com.example.coffestoreapp.Command;
 
+import java.util.Stack;
+
 public class CommandInvoker {
-    private Command command;
+    private Stack<Command> commandStack = new Stack<>();
 
-    public void setCommand(Command command) {
-        this.command = command;
+    public boolean executeCommand(Command command) {
+        boolean result = command.execute();
+        if (result) {
+            commandStack.push(command);
+        }
+        return result;
     }
 
-    public void executeCommand() {
-        command.execute();
+    public void undoLastCommand() {
+        if (!commandStack.isEmpty()) {
+            Command command = commandStack.pop();
+            command.undo();
+        }
     }
 
-    public void undoCommand() {
-        command.undo();
+    public boolean hasCommands() {
+        return !commandStack.isEmpty();
     }
 }
+

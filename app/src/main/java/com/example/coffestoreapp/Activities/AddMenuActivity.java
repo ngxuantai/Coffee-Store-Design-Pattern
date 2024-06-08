@@ -30,8 +30,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.example.coffestoreapp.Command.AddDrinkCommand;
 import com.example.coffestoreapp.Command.CommandInvoker;
 
-import com.example.coffestoreapp.Command.AddDrinkCommand;
 import com.example.coffestoreapp.Command.CommandInvoker;
+import com.example.coffestoreapp.Command.AddDrinkCommand;
+import com.example.coffestoreapp.Command.EditDrinkCommand;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -178,22 +179,21 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
 
                 // Tạo đối tượng Command
                 AddDrinkCommand addDrinkCommand = new AddDrinkCommand(drinkDAO, drinkDTO);
+                EditDrinkCommand editDrinkCommand = new EditDrinkCommand(drinkDAO, drinkDTO, drinkId);
                 
                 if (drinkId != 0) {
-                    check = drinkDAO.editDrink(drinkDTO, drinkId);
+                    check = invoker.executeCommand(editDrinkCommand);
                     function = "editDrink";
                 } else {
-                    invoker.setCommand(addDrinkCommand);
-                    invoker.executeCommand();
-                    // check = drinkDAO.addDrink(drinkDTO);
-                    // function = "addDrink";
+                    check = invoker.executeCommand(addDrinkCommand);
+                    function = "addDrink";
                 }
 
                 // Thêm, sửa món dựa theo obj loaimonDTO
-                // Intent intent = new Intent();
-                // intent.putExtra("check", check);
-                // intent.putExtra("function", function);
-                // setResult(RESULT_OK, intent);
+                Intent intent = new Intent();
+                intent.putExtra("check", check);
+                intent.putExtra("function", function);
+                setResult(RESULT_OK, intent);
                 finish();
 
                 break;
