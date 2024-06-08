@@ -58,8 +58,8 @@ public class DisplayHomeFragment extends Fragment implements View.OnClickListene
         txt_displayhome_ViewAllStatistic = (TextView) view.findViewById(R.id.txt_displayhome_ViewAllStatistic);
 
         // Khoi tao ket noi
-        categoryDAO = new CategoryDAO(getActivity());
-        orderDAO = new OrderDAO(getActivity());
+        categoryDAO = CategoryDAO.getInstance(getActivity());
+        orderDAO = OrderDAO.getInstance(getActivity());
 
         ShowCategoryList();
         ShowOrderInDay();

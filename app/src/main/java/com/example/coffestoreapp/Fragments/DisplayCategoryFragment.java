@@ -31,6 +31,7 @@ import com.example.coffestoreapp.DTO.CategoryDTO;
 import com.example.coffestoreapp.R;
 
 import java.util.List;
+import java.util.Locale.Category;
 
 public class DisplayCategoryFragment extends Fragment {
     GridView gvCategory;
@@ -81,7 +82,7 @@ public class DisplayCategoryFragment extends Fragment {
 
         fragmentManager = getActivity().getSupportFragmentManager();
 
-        categoryDAO = new CategoryDAO(getActivity());
+        categoryDAO = CategoryDAO.getInstance(getActivity());      
         ShowCategoryList();
 
         Bundle bDataCategory = getArguments();

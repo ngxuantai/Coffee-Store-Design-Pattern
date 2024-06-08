@@ -43,8 +43,8 @@ public class Register2ndActivity extends AppCompatActivity {
             phoneNumber = bundle.getString("phoneNumber");
             password = bundle.getString("password");
         }
-        employeeDAO = new EmployeeDAO(this);
-        roleDAO = new RoleDAO(this);
+        employeeDAO = EmployeeDAO.getInstance(this);
+        roleDAO = RoleDAO.getInstance(this);
 
         BTN_signup_next.setOnClickListener(new View.OnClickListener() {
             @Override

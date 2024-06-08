@@ -88,7 +88,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = getIntent();
         categoryId = intent.getIntExtra("categoryId", -1);
         categoryName = intent.getStringExtra("categoryName");
-        drinkDAO = new DrinkDAO(this); // khởi tạo đối tượng dao kết nối csdl
+        drinkDAO = DrinkDAO.getInstance(this); // khởi tạo đối tượng dao kết nối csdl
         TXTL_addmenu_category.getEditText().setText(categoryName);
 
         BitmapDrawable olddrawable = (BitmapDrawable) IMG_addmenu_addImage.getDrawable();

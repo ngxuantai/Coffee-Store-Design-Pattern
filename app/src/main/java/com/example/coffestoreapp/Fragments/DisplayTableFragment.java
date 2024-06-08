@@ -81,7 +81,7 @@ public class DisplayTableFragment extends Fragment {
         ((HomeActivity)getActivity()).getSupportActionBar().setTitle("Quản lý bàn");
 
         GVDisplayTable = (GridView)view.findViewById(R.id.gvDisplayTable);
-        tableDAO = new TableDAO(getActivity());
+        tableDAO = TableDAO.getInstance(getActivity());
 
         ShowTableList();
 

@@ -42,8 +42,8 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
         this.context = context;
         this.layout = layout;
         this.tableDTOList = banAnDTOList;
-        tableDAO = new TableDAO(context);
-        orderDAO = new OrderDAO(context);
+        tableDAO = TableDAO.getInstance(context);
+        orderDAO = OrderDAO.getInstance(context);
         //Todo: add home
         fragmentManager = ((HomeActivity)context).getSupportFragmentManager();
     }

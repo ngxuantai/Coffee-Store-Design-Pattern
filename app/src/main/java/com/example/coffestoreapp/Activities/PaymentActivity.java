@@ -50,9 +50,9 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         //endregion
 
         //khởi tạo kết nối csdl
-        orderDAO = new OrderDAO(this);
-        paymentDAO = new PaymentDAO(this);
-        tableDAO = new TableDAO(this);
+        orderDAO = OrderDAO.getInstance(this);
+        paymentDAO = PaymentDAO.getInstance(this);
+        tableDAO = TableDAO.getInstance(this);
 
         fragmentManager = getSupportFragmentManager();
 

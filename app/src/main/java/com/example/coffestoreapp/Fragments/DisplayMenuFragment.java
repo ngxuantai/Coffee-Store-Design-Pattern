@@ -74,7 +74,7 @@ public class DisplayMenuFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.displaymenu_layout, container, false);
         ((HomeActivity) getActivity()).getSupportActionBar().setTitle("Quản lý thực đơn");
-        drinkDAO = new DrinkDAO(getActivity());
+        drinkDAO = DrinkDAO.getInstance(getActivity());
 
         gvDisplayMenu = (GridView) view.findViewById(R.id.gvDisplayMenu);
 

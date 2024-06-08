@@ -39,7 +39,7 @@ public class DisplayStatisticFragment extends Fragment {
         setHasOptionsMenu(true);
 
         lvStatistic = (ListView)view.findViewById(R.id.lvStatistic);
-        orderDAO = new OrderDAO(getActivity());
+        orderDAO = OrderDAO.getInstance(getActivity());
 
         orderDTOS = orderDAO.getListOrder();
         adapterDisplayStatistic = new AdapterDisplayStatistic(getActivity(),R.layout.custom_layout_displaystatistic,orderDTOS);

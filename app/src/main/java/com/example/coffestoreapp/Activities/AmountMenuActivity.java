@@ -32,8 +32,8 @@ public class AmountMenuActivity extends AppCompatActivity {
         BTN_amountmenu_save = (Button) findViewById(R.id.btn_amountmenu_save);
 
         // khởi tạo kết nối csdl
-        orderDAO = new OrderDAO(this);
-        orderDetailDAO = new OrderDetailDAO(this);
+        orderDAO = OrderDAO.getInstance(this);
+        orderDetailDAO = OrderDetailDAO.getInstance(this);
 
         // Lấy thông tin từ bàn được chọn
         Intent intent = getIntent();

@@ -67,7 +67,7 @@ public class AddStaffActivity extends AppCompatActivity implements View.OnClickL
 
         //endregion
 
-        employeeDAO = new EmployeeDAO(this);
+        employeeDAO = EmployeeDAO.getInstance(this);
 
         //region Hiển thị trang sửa nếu được chọn từ context menu sửa
         staffID = getIntent().getIntExtra("employeeId",0);   //lấy manv từ display staff

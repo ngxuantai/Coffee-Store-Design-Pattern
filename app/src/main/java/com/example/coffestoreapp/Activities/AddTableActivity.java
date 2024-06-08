@@ -26,7 +26,7 @@ public class AddTableActivity extends AppCompatActivity {
         TXTL_addtable_tableName = (TextInputLayout)findViewById(R.id.txtl_addtable_tablename);
         BTN_addtable_createTable = (Button)findViewById(R.id.btn_addtable_CreateTable);
 
-        tableDAO = new TableDAO(this);
+        tableDAO = TableDAO.getInstance(this);
         BTN_addtable_createTable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

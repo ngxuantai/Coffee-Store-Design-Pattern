@@ -76,7 +76,7 @@ public class DisplayStaffFragment extends Fragment {
 
         gvStaff = (GridView)view.findViewById(R.id.gvStaff) ;
 
-        employeeDAO = new EmployeeDAO(getActivity());
+        employeeDAO = EmployeeDAO.getInstance(getActivity());
         displayStaffList();
 
         registerForContextMenu(gvStaff);

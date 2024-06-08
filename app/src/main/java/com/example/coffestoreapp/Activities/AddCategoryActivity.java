@@ -63,7 +63,7 @@ public class AddCategoryActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addcategory_layout);
 
-        categoryDAO = new CategoryDAO(this);  //khởi tạo đối tượng dao kết nối csdl
+        categoryDAO = CategoryDAO.getInstance(this);  //khởi tạo đối tượng dao kết nối csdl
 
         //region Lấy đối tượng view
         BTN_addcategory_CreateCategory = (Button)findViewById(R.id.btn_addcategory_CreateCategory);

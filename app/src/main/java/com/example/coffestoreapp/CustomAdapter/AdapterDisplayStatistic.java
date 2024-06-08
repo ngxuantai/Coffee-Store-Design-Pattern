@@ -31,8 +31,8 @@ public class AdapterDisplayStatistic extends BaseAdapter {
         this.context = context;
         this.layout = layout;
         this.orderDTOS = orderDTOS;
-        employeeDAO = new EmployeeDAO(context);
-        tableDAO = new TableDAO(context);
+        employeeDAO = EmployeeDAO.getInstance(context);
+        tableDAO = TableDAO.getInstance(context);
     }
 
     @Override
