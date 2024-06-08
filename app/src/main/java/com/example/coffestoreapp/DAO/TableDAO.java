@@ -13,12 +13,17 @@ import java.util.List;
 
 public class TableDAO {
     SQLiteDatabase database;
-
+    private static TableDAO instance;
     public TableDAO(Context context) {
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }
-
+    public static synchronized TableDAO getInstance(Context context){
+        if (instance == null){
+            instance = new TableDAO(context.getApplicationContext());
+        }
+        return instance;
+    }
     public boolean addTable(String tableName) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(CreateDatabase.TABLE_NAME, tableName);

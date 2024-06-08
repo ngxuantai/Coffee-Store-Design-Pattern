@@ -14,10 +14,18 @@ import java.util.List;
 public class EmployeeDAO {
 
     SQLiteDatabase database;
+    private static EmployeeDAO instance;
 
     public EmployeeDAO(Context context) {
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
+    }
+
+    public static synchronized EmployeeDAO getInstance(Context context){
+        if (instance == null){
+            instance = new EmployeeDAO(context.getApplicationContext());
+        }
+        return instance;
     }
 
     public long addEmployee(EmployeeDTO employeeDTO) {

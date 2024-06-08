@@ -9,6 +9,7 @@ import com.example.coffestoreapp.Database.CreateDatabase;
 
 public class RoleDAO {
     SQLiteDatabase database;
+    private static RoleDAO instance;
     public RoleDAO(Context context){
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
@@ -20,6 +21,12 @@ public class RoleDAO {
         database.insert(CreateDatabase.TABLE_ROLE,null,contentValues);
     }
 
+    public static synchronized RoleDAO getInstance(Context context){
+        if (instance == null){
+            instance = new RoleDAO(context.getApplicationContext());
+        }
+        return instance;
+    }
 
     public String getRoleById(int roleId){
         String roleName ="";

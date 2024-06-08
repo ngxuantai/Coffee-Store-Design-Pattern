@@ -13,9 +13,17 @@ import java.util.List;
 
 public class CategoryDAO {
     SQLiteDatabase database;
+    private static CategoryDAO instance;
     public CategoryDAO(Context context){
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
+    }
+
+    public static synchronized CategoryDAO getInstance(Context context){
+        if (instance == null){
+            instance = new CategoryDAO(context.getApplicationContext());
+        }
+        return instance;
     }
 
     public boolean addCategory(CategoryDTO categoryDTO){

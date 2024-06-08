@@ -13,10 +13,18 @@ import java.util.List;
 
 public class DrinkDAO {
     SQLiteDatabase database;
+    private static DrinkDAO instance;
 
     public DrinkDAO(Context context) {
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
+    }
+
+    public static synchronized DrinkDAO getInstance(Context context){
+        if (instance == null){
+            instance = new DrinkDAO(context.getApplicationContext());
+        }
+        return instance;
     }
 
     public boolean addDrink(DrinkDTO drinkDTO) {
