@@ -4,8 +4,8 @@ import com.example.coffestoreapp.DAO.DrinkDAO;
 import com.example.coffestoreapp.DTO.DrinkDTO;
 
 public class AddDrinkCommand implements Command {
-    private DrinkDAO drinkDAO;
-    private DrinkDTO drinkDTO;
+    private final DrinkDAO drinkDAO;
+    private final DrinkDTO drinkDTO;
 
     public AddDrinkCommand(DrinkDAO drinkDAO, DrinkDTO drinkDTO) {
         this.drinkDAO = drinkDAO;

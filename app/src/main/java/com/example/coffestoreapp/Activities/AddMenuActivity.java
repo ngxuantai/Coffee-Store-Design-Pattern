@@ -27,6 +27,11 @@ import com.example.coffestoreapp.DTO.DrinkDTO;
 import com.example.coffestoreapp.Database.CreateDatabase;
 import com.example.coffestoreapp.R;
 import com.google.android.material.textfield.TextInputLayout;
+import com.example.coffestoreapp.Command.AddDrinkCommand;
+import com.example.coffestoreapp.Command.CommandInvoker;
+
+import com.example.coffestoreapp.Command.AddDrinkCommand;
+import com.example.coffestoreapp.Command.CommandInvoker;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -46,6 +51,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
     Bitmap bitmapold;
     int categoryId;
     int drinkId = 0;
+    private CommandInvoker invoker;
 
     ActivityResultLauncher<Intent> resultLauncherOpenIMG = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -89,6 +95,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
         categoryId = intent.getIntExtra("categoryId", -1);
         categoryName = intent.getStringExtra("categoryName");
         drinkDAO = DrinkDAO.getInstance(this); // khởi tạo đối tượng dao kết nối csdl
+        invoker = new CommandInvoker();
         TXTL_addmenu_category.getEditText().setText(categoryName);
 
         BitmapDrawable olddrawable = (BitmapDrawable) IMG_addmenu_addImage.getDrawable();
@@ -168,19 +175,25 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
                         .setStatus(status)
                         .setImage(imageViewtoByte(IMG_addmenu_addImage))
                         .build();
+
+                // Tạo đối tượng Command
+                AddDrinkCommand addDrinkCommand = new AddDrinkCommand(drinkDAO, drinkDTO);
+                
                 if (drinkId != 0) {
                     check = drinkDAO.editDrink(drinkDTO, drinkId);
                     function = "editDrink";
                 } else {
-                    check = drinkDAO.addDrink(drinkDTO);
-                    function = "addDrink";
+                    invoker.setCommand(addDrinkCommand);
+                    invoker.executeCommand();
+                    // check = drinkDAO.addDrink(drinkDTO);
+                    // function = "addDrink";
                 }
 
                 // Thêm, sửa món dựa theo obj loaimonDTO
-                Intent intent = new Intent();
-                intent.putExtra("check", check);
-                intent.putExtra("function", function);
-                setResult(RESULT_OK, intent);
+                // Intent intent = new Intent();
+                // intent.putExtra("check", check);
+                // intent.putExtra("function", function);
+                // setResult(RESULT_OK, intent);
                 finish();
 
                 break;
