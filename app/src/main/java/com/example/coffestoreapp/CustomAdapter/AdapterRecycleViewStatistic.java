@@ -29,8 +29,8 @@ public class AdapterRecycleViewStatistic extends RecyclerView.Adapter<AdapterRec
         this.context = context;
         this.layout = layout;
         this.orderDTOList = orderDTOList;
-        empolyeeDAO = new EmployeeDAO(context);
-        tableDAO = new TableDAO(context);
+        empolyeeDAO = EmployeeDAO.getInstance(context);
+        tableDAO = TableDAO.getInstance(context);
     }
 
     @Override

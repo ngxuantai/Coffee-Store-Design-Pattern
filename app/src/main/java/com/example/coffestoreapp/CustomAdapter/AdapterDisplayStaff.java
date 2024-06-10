@@ -27,7 +27,7 @@ public class AdapterDisplayStaff extends BaseAdapter {
         this.context = context;
         this.layout = layout;
         this.employeeDTOS = employeeDTOS;
-        roleDAO = new RoleDAO(context);
+        roleDAO = RoleDAO.getInstance(context);
     }
 
     @Override

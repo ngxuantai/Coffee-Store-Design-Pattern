@@ -12,9 +12,18 @@ import java.util.List;
 
 public class PaymentDAO {
     SQLiteDatabase database;
-    public PaymentDAO(Context context){
+    private static PaymentDAO instance;
+    
+    private PaymentDAO(Context context){
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
+    }
+
+    public static synchronized PaymentDAO getInstance(Context context){
+        if (instance == null){
+            instance = new PaymentDAO(context.getApplicationContext());
+        }
+        return instance;
     }
 
     public List<PaymentDTO> getListDrinkByOrderId(int orderId){

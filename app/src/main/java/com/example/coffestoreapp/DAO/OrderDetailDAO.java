@@ -10,10 +10,18 @@ import com.example.coffestoreapp.Database.CreateDatabase;
 
 public class OrderDetailDAO {
     SQLiteDatabase database;
+    private static OrderDetailDAO instance;
 
-    public OrderDetailDAO(Context context) {
+    private OrderDetailDAO(Context context) {
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
+    }
+
+    public static synchronized OrderDetailDAO getInstance(Context context){
+        if (instance == null){
+            instance = new OrderDetailDAO(context.getApplicationContext());
+        }
+        return instance;
     }
 
     public boolean checkDrinkExist(int orderId, int drinkId) {

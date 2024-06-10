@@ -26,7 +26,7 @@ public class EditTableActivity extends AppCompatActivity {
         BTN_edittable_EditTable = (Button)findViewById(R.id.btn_edittable_EditTable);
 
         //khởi tạo dao mở kết nối csdl
-        tableDAO = new TableDAO(this);
+        tableDAO = TableDAO.getInstance(this);
         int tableId = getIntent().getIntExtra("tableId",0); //lấy maban từ bàn đc chọn
 
         BTN_edittable_EditTable.setOnClickListener(new View.OnClickListener() {

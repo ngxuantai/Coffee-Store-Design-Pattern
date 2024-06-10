@@ -56,9 +56,9 @@ public class DetailStatisticActivity extends AppCompatActivity {
         //endregion
 
         //khởi tạo lớp dao mở kết nối csdl
-        employeeDAO = new EmployeeDAO(this);
-        tableDAO = new TableDAO(this);
-        paymentDAO = new PaymentDAO(this);
+        employeeDAO = EmployeeDAO.getInstance(this);
+        tableDAO = TableDAO.getInstance(this);
+        paymentDAO = PaymentDAO.getInstance(this);
 
         //chỉ hiển thị nếu lấy đc mã đơn đc chọn
         if (orderId !=0){

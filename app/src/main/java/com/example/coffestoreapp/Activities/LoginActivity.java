@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         BTN_login = (Button)findViewById(R.id.btn_login_signIn);
         //BTN_login_DangKy = (Button)findViewById(R.id.btn_login_DangKy);
 
-        employeeDAO = new EmployeeDAO(this);
+        employeeDAO = EmployeeDAO.getInstance(this);
 
         BTN_login.setOnClickListener(new View.OnClickListener() {
             @Override
