@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -21,6 +22,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import com.example.coffestoreapp.Command.CommandInvoker;
+import com.example.coffestoreapp.Command.DeleteDrinkCommand;
 
 import com.example.coffestoreapp.Activities.AddMenuActivity;
 import com.example.coffestoreapp.Activities.AmountMenuActivity;
@@ -39,6 +43,7 @@ public class DisplayMenuFragment extends Fragment {
     DrinkDAO drinkDAO;
     List<DrinkDTO> drinkDTOList;
     AdapterDisplayMenu adapterDisplayMenu;
+    private CommandInvoker invoker;
 
     ActivityResultLauncher<Intent> resultLauncherMenu = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -75,6 +80,21 @@ public class DisplayMenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.displaymenu_layout, container, false);
         ((HomeActivity) getActivity()).getSupportActionBar().setTitle("Quản lý thực đơn");
         drinkDAO = DrinkDAO.getInstance(getActivity());
+        invoker = new CommandInvoker();
+
+        Button btnUndo = view.findViewById(R.id.btnUndo);
+        btnUndo.setVisibility(View.GONE); // Ẩn nút Undo ban đầu
+        btnUndo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                invoker.undoLastCommand();
+                ShowDrinkList();
+                Toast.makeText(getActivity(), "Undo thành công", Toast.LENGTH_SHORT).show();
+                if (!invoker.hasCommands()) {
+                    btnUndo.setVisibility(View.GONE);
+                }
+            }
+        });
 
         gvDisplayMenu = (GridView) view.findViewById(R.id.gvDisplayMenu);
 
@@ -103,6 +123,7 @@ public class DisplayMenuFragment extends Fragment {
                 }
             });
         }
+
         setHasOptionsMenu(true);
         registerForContextMenu(gvDisplayMenu);
         view.setOnKeyListener(new View.OnKeyListener() {
@@ -132,6 +153,7 @@ public class DisplayMenuFragment extends Fragment {
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int position = menuInfo.position;
         int drinkID = drinkDTOList.get(position).getDrinkID();
+        invoker = new CommandInvoker();
 
         switch (id) {
             case R.id.itEdit:
@@ -143,11 +165,18 @@ public class DisplayMenuFragment extends Fragment {
                 break;
 
             case R.id.itDelete:
-                boolean check = drinkDAO.deleteDrink(categoryId);
+                DeleteDrinkCommand deleteDrinkCommand = new DeleteDrinkCommand(drinkID);
+                deleteDrinkCommand.setDrinkDAO(drinkDAO);
+                boolean check = invoker.executeCommand(deleteDrinkCommand);
+
+                //boolean check = drinkDAO.deleteDrink(drinkID);
+                
                 if (check) {
                     Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.delete_sucessful),
                         Toast.LENGTH_SHORT).show();
                     ShowDrinkList();
+                    Button btnUndo = getView().findViewById(R.id.btnUndo);
+                    btnUndo.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.delete_failed),
                             Toast.LENGTH_SHORT).show();
