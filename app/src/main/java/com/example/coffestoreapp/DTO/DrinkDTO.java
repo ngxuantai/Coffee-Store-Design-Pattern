@@ -1,5 +1,15 @@
 package com.example.coffestoreapp.DTO;
 
+interface Builder<T> {
+    Builder<T> setDrinkID(int drinkID);
+    Builder<T> setCategoryID(int categoryID);
+    Builder<T> setDrinkName(String drinkName);
+    Builder<T> setPrice(String price);
+    Builder<T> setStatus(String status);
+    Builder<T> setImage(byte[] image);
+    T build();
+}
+
 public class DrinkDTO {
     private final int drinkID, categoryID;
     private final String drinkName, price, status;
@@ -14,41 +24,48 @@ public class DrinkDTO {
         this.image = builder.image;
     }
 
-    public static class DrinkBuilder {
+    public static class DrinkBuilder implements Builder<DrinkDTO>{
         private int drinkID, categoryID;
         private String drinkName, price, status;
         private byte[] image;
 
+        @Override
         public DrinkBuilder setDrinkID(int drinkID) {
             this.drinkID = drinkID;
             return this;
         }
 
+        @Override
         public DrinkBuilder setCategoryID(int categoryID) {
             this.categoryID = categoryID;
             return this;
         }
 
+        @Override
         public DrinkBuilder setDrinkName(String drinkName) {
             this.drinkName = drinkName;
             return this;
         }
 
+        @Override
         public DrinkBuilder setPrice(String price) {
             this.price = price;
             return this;
         }
 
+        @Override
         public DrinkBuilder setStatus(String status) {
             this.status = status;
             return this;
         }
 
+        @Override
         public DrinkBuilder setImage(byte[] image) {
             this.image = image;
             return this;
         }
 
+        @Override
         public DrinkDTO build() {
             return new DrinkDTO(this);
         }
