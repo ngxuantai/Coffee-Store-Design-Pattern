@@ -1,15 +1,15 @@
 package com.example.coffestoreapp.DTO;
 
-interface Builder<T> {
-    Builder<T> setFullName(String fullName);
-    Builder<T> setUserName(String userName);
-    Builder<T> setPassword(String password);
-    Builder<T> setEmail(String email);
-    Builder<T> setPhoneNumber(String phoneNumber);
-    Builder<T> setGender(String gender);
-    Builder<T> setBirthday(String birthday);
-    Builder<T> setEmployId(int employId);
-    Builder<T> setRoleId(int roleId);
+interface IEmployeeBuilder<T> {
+    IEmployeeBuilder<T> setFullName(String fullName);
+    IEmployeeBuilder<T> setUserName(String userName);
+    IEmployeeBuilder<T> setPassword(String password);
+    IEmployeeBuilder<T> setEmail(String email);
+    IEmployeeBuilder<T> setPhoneNumber(String phoneNumber);
+    IEmployeeBuilder<T> setGender(String gender);
+    IEmployeeBuilder<T> setBirthday(String birthday);
+    IEmployeeBuilder<T> setEmployId(int employId);
+    IEmployeeBuilder<T> setRoleId(int roleId);
     T build();
 }
 
@@ -29,7 +29,7 @@ public class EmployeeDTO {
         this.roleId = builder.roleId;
     }
 
-    public static class EmployeeBuilder implements Builder<EmployeeDTO> {
+    public static class EmployeeBuilder implements IEmployeeBuilder<EmployeeDTO> {
         private String fullName, userName, password, email, phoneNumber, gender, birthday;
         private int employId, roleId;
 
